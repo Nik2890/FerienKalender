@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nikos Kalender</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+
+        .titel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+            font-size: 10px;
+            margin: 0px;
+
+        }
+
+        .setup {
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            font-size: 30px;
+        }
+
+        select option {
+            font-size: 30px;
+        }
+
+
+        .calendar-container {
+            display: flex;
+            justify-content: left;
+            margin: 0px;
+            height: 95vh;
+
+
+        }
+
+        .month {
+
+            padding: 1px;
+            text-align: center;
+            justify-content: center;
+            font-size: 20px;
+            width: 100%;
+
+
+
+        }
+
+        .month h3 {
+            margin: 0 0 10px;
+        }
+
+        .days {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            align-content: center;
+
+        }
+
+        .day {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0px;
+            width: 100%;
+            height: 2.8%;
+            font-size: 50%;
+            border: solid 1px;
+            border-color: #dcdcdc;
+
+        }
+
+        .daysFormat {
+
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 22%;
+
+
+
+        }
+
+
+        .Labelx {
+            width: 65%;
+            border: solid 1px;
+            border-color: #ffffff;
+            font-size: 12px;
+
+
+        }
+
+
+        .ferien {
+            display: flex;
+            justify-content: left;
+            margin-left: 0%;
+            border: none;
+
+
+
+        }
+
+        .FerieButton {
+
+            border: none;
+            width: 1px;
+        }
+
+        .ferienX {
+            background-color: rgb(72, 75, 245);
+        }
+
+        .ferienY {
+            background-color: rgb(250, 144, 144);
+        }
+
+        .Niko {
+            background-color: rgb(107, 218, 38);
+        }
+
+        .Sophie {
+            background-color: rgb(100, 118, 255);
+        }
+
+        .Wochenende {
+
+            background-color: rgb(205, 205, 205);
+
+        }
+    </style>
+</head>
+
+<body onload="generateCalendar(2024)">
+
+
+    <div class="titel">
+        <div>
+            <h1>Nikos Kalender</h1>
+        </div>
+        <div class="Setup">
+
+            <Select id="year_Select" onchange="generateCalendar(this.value)" class="option">
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+            </Select>
+
+        </div>
+    </div>
+    <div class="calendar-container" id="calendar"></div>
+
+    <script>
+
+        let wochentage = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+
+        let jahrSelect = document.getElementById("year_Select");
+        console.log(jahrSelect);
+
+        // Monat und Tagesnamen
+        const monate = [
+            "(1) Januar", "(2) Februar", "(3) März", "(4) April", "(5) Mai", "(6) Juni",
+            "(7) Juli", " (8) August", " (9) September", " (10) Oktober", "(11) November", "(12) Dezember"
+        ];
+
+        // Funktion zur Berechnung der Tage im Monat
+        function getDaysInMonth(year, month) {
+            return new Date(year, month + 1, 0).getDate();
+        }
+
+        // Jahreskalender generieren
+
+        function generateCalendar(AusgewähltesJahr) {
+
+            let kalenderwoche_nr = 0
+
+            // Durch die Monate iterieren
+            document.getElementById("calendar").innerHTML = ""
+            for (let month = 0; month < 12; month++) {
+                // Montas div tag erstellen
+
+
+
+                let calendar = document.getElementById("calendar").innerHTML;
+                document.getElementById("calendar").innerHTML = calendar + '<div class="month"' + 'id="' + monate[month] + '">' + monate[month] + '</div>'
+
+
+                for (let day = 1; day <= getDaysInMonth(AusgewähltesJahr, month); day++) {
+
+                    if (new Date(AusgewähltesJahr, month, day).getDay() == 1) {
+                        kalenderwoche_nr = kalenderwoche_nr + 1
+                    }
+
+
+                    //Wochenenden bestimmen
+                    var TagFormat = '<div class = "daysFormat">'
+                    if (new Date(AusgewähltesJahr, month, day).getDay() == 0 || new Date(AusgewähltesJahr, month, day).getDay() == 6) {
+                        var TagFormat = '<div class = "daysFormat Wochenende">'
+                    }
+
+
+
+                    // Tage mit 0 fuellen
+                    let calendar = document.getElementById(monate[month]).innerHTML;
+                    if (day <= 9) {
+                        day = "0" + day
+                    }
+
+
+                    //Standard Button einfügen
+                    var FerienX = '<button class="FerieButton"></button>';
+                    var FerienY = '<button class="FerieButton"></button>';
+                    var FerienNiko = '<button class="FerieButton"></button>';
+                    var FerienSophie = '<button class="FerieButton"></button>';
+
+
+
+                    //bei Bedingung die Färbung über zusätzliche Class eintragen
+                    if (AusgewähltesJahr == 2024) { var FerienNiko = '<button class="FerieButton Niko "></button>'; }
+                    if (AusgewähltesJahr == 2024) { var FerienSophie = '<button class="FerieButton Sophie "></button>'; }
+
+
+
+
+                    //Monat in der ID auffülen
+                    s_month = ""
+                    if (month < 9) { s_month = "0" + (month + 1) }
+                    else { s_month = (month + 1) }
+
+                    //Kalenderwoche nur am Mo einfügen
+
+
+                    if (new Date(AusgewähltesJahr, month, day).getDay() == 1) { kalenderwoche_nr_am_Mo = 'KW ' + kalenderwoche_nr + ' - ' }
+                    else { kalenderwoche_nr_am_Mo = '' }
+
+
+                    //Tage zusammensetzen
+                    document.getElementById(monate[month]).innerHTML = calendar
+
+                        + '<div class="day" id="' + day + '_' + (s_month) + '_' + AusgewähltesJahr + '_id' + '">'
+                        + TagFormat
+                        //+ kalenderwoche_nr_am_Mo
+                        + wochentage[new Date(AusgewähltesJahr, month, day).getDay()] + ' '
+                        + day + '.'
+                        + '</div>'
+
+                        + '<div class="ferien">'
+
+                        + FerienX
+                        + FerienY
+                        + FerienNiko
+                        + FerienSophie
+
+                        + '</div>'
+                        + '<input class="Labelx" type="text">'
+                        + '</div>';
+                    + '</div>'
+                }
+
+
+            }
+        }
+
+        // Kalender für das aktuelle Jahr generieren
+    </script>
+</body>
+<div id="calendar">
+</div>
+
+</html>
