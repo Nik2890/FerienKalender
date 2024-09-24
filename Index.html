@@ -8,7 +8,430 @@
     <style>
         body {
             font-family: Arial, sans-serif;
+        }<!DOCTYPE html>
+<html lang="de">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nikos Kalender</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+
         }
+
+
+        .titel {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px;
+            font-size: 10px;
+            margin: 0px;
+
+        }
+
+        .setup {
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            font-size: 30px;
+        }
+
+        select option {
+            font-size: 30px;
+        }
+
+
+        .calendar-container {
+            display: flex;
+            justify-content: left;
+            margin: 0px;
+            height: 95vh;
+
+
+        }
+
+        .month {
+
+            padding: 1px;
+            text-align: center;
+            justify-content: center;
+            font-size: 20px;
+            width: 100%;
+
+
+
+        }
+
+        .month h3 {
+            margin: 0 0 10px;
+        }
+
+        .days {
+            display: flex;
+            flex-direction: column;
+            text-align: left;
+            align-content: center;
+
+        }
+
+        .day {
+            display: flex;
+            justify-content: flex-end;
+            padding: 0px;
+            width: 100%;
+            height: 3%;
+            font-size: 50%;
+            border: solid 1px;
+            border-color: #dcdcdc;
+
+        }
+
+        .daysFormat {
+
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            width: 22%;
+
+
+
+        }
+
+
+        .Labelx {
+            width: 65%;
+            border: solid 1px;
+            border-color: #ffffff;
+            font-size: 12px;
+
+
+        }
+
+
+        .ferien {
+            display: flex;
+            justify-content: left;
+            margin-left: 0%;
+            border: none;
+
+
+
+        }
+
+        .FerieButton {
+
+            border: none;
+            width: 1px;
+        }
+
+        .ferienX {
+            background-color: rgb(72, 75, 245);
+        }
+
+        .ferienY {
+            background-color: rgb(250, 144, 144);
+        }
+
+        .Niko {
+            background-color: rgb(107, 218, 38);
+        }
+
+        .Sophie {
+            background-color: rgb(100, 118, 255);
+        }
+
+        .Wochenende {
+
+            background-color: rgb(205, 205, 205);
+
+        }
+
+        .form1 {
+            display: none;
+            justify-content: flex-end;
+
+            background-color: rgb(255, 255, 255);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20%;
+            height: 20%;
+            box-shadow: 0px 0px 20px;
+        }
+
+        .closeButton {
+
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            background-color: rgb(234, 65, 65);
+            height: 10%;
+            margin: 2px;
+            border: 1px solid black;
+
+        }
+    </style>
+
+    <script>
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        const Database = iniSupabase();
+        let AusgewähltesJahr = '2023'
+        let email_value
+        let password_value
+        let meinArray = []
+        let cal_niko = ""
+        //const Anmeldung = signInWithEmail();
+        let wochentage = ['So', 'Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa'];
+        let jahrSelect = document.getElementById("year_Select");
+
+        const monate = [
+            "(1) Januar", "(2) Februar", "(3) März", "(4) April", "(5) Mai", "(6) Juni",
+            "(7) Juli", " (8) August", " (9) September", " (10) Oktober", "(11) November", "(12) Dezember"
+        ];
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function iniSupabase(PW) {
+            const supabaseUrl = "https://hskeowlqxzmjfsaxwadj.supabase.co";
+            const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhza2Vvd2xxeHptamZzYXh3YWRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM5OTY4MTksImV4cCI6MjAzOTU3MjgxOX0.wus63Imorj_2Q8jJ9BiIHNTyv38-dYrOrHIs6ctYAH8";
+            const Database = supabase.createClient(supabaseUrl, supabaseKey)
+            return Database
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        async function signInWithEmail() {
+            const { data, error } = await Database.auth.signInWithPassword({
+                email: document.getElementById("email_id").value,
+                password: document.getElementById("password_id").value,
+            })
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        async function readDB() {
+
+            // fore each TableSB.... noch einbauen
+            let TableSD = 'cal_niko'
+
+            const Datebank = TableSD
+
+            const { data, error } = await Database
+                .from(TableSD)  // Tabelle auswählen
+                .select('*')  // Alle Spalten auswählen
+
+            if (error) {
+                console.error('Fehler beim Lesen der Daten:', error);
+            } else {
+                let Antwort = data
+                localStorage.setItem(TableSD, JSON.stringify(Antwort))
+                let meinArray = JSON.parse(localStorage.getItem(TableSD))
+            }
+
+            //meinArray.filter(element => element.day_id === 'T01M01')[0]['2024']
+
+            generateCalendar(AusgewähltesJahr)
+
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        async function updateDB(TableSB, YearSB, DaySB, Neuer_Wert) {
+            console.log(TableSB, DaySB)
+            //geht
+            const { data, error } = await Database
+                .from(TableSB)
+                .upsert({ 'day_id': DaySB, [YearSB]: Neuer_Wert })
+                .select()
+        }
+        
+
+        //updateDB('cal_niko', AusgewähltesJahr, Tag, '0')
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        function openform() { document.querySelector(".form1").style.display = "flex"; }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+        // Funktion zur Berechnung der Tage im Monat
+        function getDaysInMonth(year, month) { return new Date(year, month + 1, 0).getDate(); }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+
+        // Jahreskalender generieren
+
+        function generateCalendar(AusgewähltesJahr) {
+
+            let kalenderwoche_nr = 0
+
+            // Durch die Monate iterieren
+            document.getElementById("calendar").innerHTML = ""
+            for (let month = 0; month < 12; month++) {
+                // Montas div tag erstellen
+
+
+
+                let calendar = document.getElementById("calendar").innerHTML;
+                document.getElementById("calendar").innerHTML = calendar + '<div class="month"' + 'id="' + monate[month] + '">' + monate[month] + '</div>'
+
+
+                for (let day = 1; day <= getDaysInMonth(AusgewähltesJahr, month); day++) {
+
+                    if (new Date(AusgewähltesJahr, month, day).getDay() == 1) {
+                        kalenderwoche_nr = kalenderwoche_nr + 1
+                    }
+
+
+                    //Wochenenden bestimmen
+                    var TagFormat = '<div class = "daysFormat"  onclick="openform()">'
+                    if (new Date(AusgewähltesJahr, month, day).getDay() == 0 || new Date(AusgewähltesJahr, month, day).getDay() == 6) {
+                        var TagFormat = '<div class = "daysFormat Wochenende">'
+                    }
+
+
+
+                    // Tage mit 0 fuellen
+                    let calendar = document.getElementById(monate[month]).innerHTML;
+                    if (day <= 9) {
+                        day = "0" + day
+                    }
+
+
+                    //Standard Button einfügen
+                    var FerienX = '<button class="FerieButton"></button>';
+                    var FerienY = '<button class="FerieButton"></button>';
+                    var FerienNiko = '<button class="FerieButton"></button>';
+                    var FerienSophie = '<button class="FerieButton"></button>';
+
+                    //Monat in der ID auffülen
+                    s_month = ""
+                    if (month < 9) { s_month = "0" + (month + 1) }
+                    else { s_month = (month + 1) }
+
+                    //eintag_x = ('("'+'T' + day + 'M' + s_month + '"[0])["' + AusgewähltesJahr + '""]')
+                    //let eintag_x = meinArray.filter(element => element.day_id === 'T01M01')
+                    //let eintag_x = ('("'+'T' + day + 'M' + s_month + '"[0])["' + AusgewähltesJahr + '""]')
+                    //console.log(eintag_x)
+                    //let eintag = meinArray.filter(element => element.day_id === eintag_x)
+
+
+                    let cal_niko = JSON.parse(localStorage.getItem('cal_niko'))
+                    Tag = 'T' + day + 'M' + s_month
+                    let ARR = cal_niko.filter(element => element.day_id === Tag)[0][AusgewähltesJahr]
+                    
+
+                    
+                    
+
+
+                     //if (day == '01' && s_month == '01') {
+                         if (ARR === 1) {
+                             var FerienNiko = '<button class="FerieButton Niko "></button>';
+                             console.log("Niko");
+                         }
+                    //}
+
+
+                    //Kalenderwoche nur am Mo einfügen
+
+
+                    if (new Date(AusgewähltesJahr, month, day).getDay() == 1) { kalenderwoche_nr_am_Mo = 'KW ' + kalenderwoche_nr + ' - ' }
+                    else { kalenderwoche_nr_am_Mo = '' }
+
+
+                    //Tage zusammensetzen
+                    document.getElementById(monate[month]).innerHTML = calendar
+
+                        + '<div class="day" id="' + day + '_' + (s_month) + '_' + AusgewähltesJahr + '_id' + '">'
+                        + TagFormat
+                        //+ kalenderwoche_nr_am_Mo
+                        + wochentage[new Date(AusgewähltesJahr, month, day).getDay()] + ' '
+                        + day + '.'
+                        + '</div>'
+
+                        + '<div class="ferien">'
+
+                        + FerienX
+                        + FerienY
+                        + FerienNiko
+                        + FerienSophie
+
+                        + '</div>'
+                        + '<input class="Labelx" type="text">'
+                        + '</div>';
+                    + '</div>'
+                }
+
+
+            }
+        }
+
+        // Kalender für das aktuelle Jahr generieren
+    </script>
+
+</head>
+
+<body>
+
+    <div class="titel">
+        <div>
+            <h1>Nikos Kalender</h1>
+        </div>
+        <div class="Setup">
+
+
+
+            <form class="form1" id="form1">
+                <button class="closeButton"
+                    onclick="(() => { event.preventDefault(); document.querySelector('.form1').style.display = 'none'; })()">X</button>
+            </form>
+
+
+
+
+
+            <input id="email_id" type="email" placeholder="Email" required>
+            <input id="password_id" type="password" placeholder="Passwort" required
+                onkeypress="if(event.key === 'Enter') signInWithEmail()">
+            <button onclick="signInWithEmail()">Login</button>
+
+
+
+
+            <Select id="year_Select" onchange="readDB" class="option">
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+                <option value="2025">2025</option>
+                <option value="2026">2026</option>
+                <option value="2027">2027</option>
+                <option value="2028">2028</option>
+            </Select>
+
+            <button onclick="readDB()">Daten abrufen</button>
+            <button onclick="updateDB('cal_niko_text', '2023', 'TM01M01', 'hallo')">test1</button>
+            
+
+        </div>
+    </div>
+
+    <div class="calendar-container" id="calendar"></div>
+    <div id="calendar"></div>
+</body>
+
+
+</html>
 
 
         .titel {
