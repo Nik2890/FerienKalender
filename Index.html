@@ -238,17 +238,18 @@
 
 
         async function updateDB(TableSB, YearSB, DaySB, Neuer_Wert) {
+           
+            //geht
+            const { data, error } = await Database
+                .from(TableSB)
+                .upsert({ 'day_id': DaySB ,'2023': 1 })
+                .select()
 
-            //const Datebank = TableSB
+
             // const { data, error } = await Database
-            //     .from(Datebank)
-            //     .update({ YearSB: Neuer_Wert })
-            //     .eq('day_id', DaySB)
-            //     .select();
-            // console.log('updateDB done');
-
-
-
+            //     .from(TableSB)
+            //     .upsert({ 'day_id': DaySB , '2023': 1 })
+            //     .select()
 
         }
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -325,7 +326,7 @@
                     // let ARR = cal_niko.filter(element => element.day_id === Tag)[0][AusgewähltesJahr]
                     // console.log(ARR)
 
-                    updateDB('cal_niko', '2023', Tag, 0)
+                    //updateDB()
 
 
                     // if (day == '01' && s_month == '01') {
@@ -412,7 +413,7 @@
             </Select>
 
             <button onclick="readDB()">Daten abrufen</button>
-
+            <button onclick="updateDB('cal_niko', '2023', 'TM01M05', '0')">test</button>
 
         </div>
     </div>
