@@ -21,9 +21,9 @@
             display: flex;
 
             align-items: center;
-            justify-content: space-between;
+            justify-content: center;
             padding: 10px;
-            height: 20px;
+            height: 40px;
             margin-right: 20px;
 
 
@@ -38,10 +38,6 @@
         .Jahresauswahl {
             display: flex;
             justify-content: flex-start;
-        }
-
-        .login {
-            display: none;
         }
 
         select {
@@ -179,17 +175,54 @@
             transform: translate(-50%, -50%);
             width: 20%;
             height: 20%;
-            box-shadow: 0px 0px 20px;
+            box-shadow: 0px 0px 50px;
         }
 
+
+        .formEmaitext {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 15px;
+        }
+
+        .formEmailInput {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 20px;
+        }
+
+        .formLogin {
+            display: none;
+            height: 20px;
+            background-color: rgb(255, 255, 255);
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 20%;
+            height: 10%;
+            box-shadow: 0px 0px 10px;
+            padding: 10px;
+            background-color:  rgb(252, 252, 252);
+        }
+
+
+        .formEmaiButtonX {
+            display: flex;
+            justify-content: flex-end;
+            height: 20px;
+        }
         .closeButton {
 
             display: flex;
             justify-content: flex-end;
-            align-items: center;
+            align-items: flex-end;
             background-color: rgb(234, 65, 65);
-            height: 10%;
+            height: 100%;
             margin: 2px;
+            width: 5%;
             border: 1px solid black;
 
         }
@@ -254,8 +287,8 @@
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        function loginShowflex() { document.querySelector(".login").style.display = "flex"; }
-        function loginShownone() { document.querySelector(".login").style.display = "none"; }
+        function loginShowflex() { document.querySelector(".formLogin").style.display = "grid"; }
+        function loginShownone() { document.querySelector(".formLogin").style.display = "none"; }
 
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -510,19 +543,46 @@
             onclick="(() => { event.preventDefault(); document.querySelector('.form1').style.display = 'none'; })()">X</button>
     </form>
 
+
+
+
+    <form class="formLogin" id="formLogin">
+
+        <div class ="formEmaiButtonX">
+            <button class="closeButton" onclick="(() => { event.preventDefault(); document.querySelector('.formLogin').style.display = 'none'; })()">X</button>
+        </div>
+        
+        <div class ="formEmaitext">
+            <h1>@ Anmeldung</h1>
+        </div>
+
+
+        <div class ="formEmailInput">
+            <input id="email_id" type="email" placeholder="Email" required><br>
+            <input id="password_id" type="password" placeholder="Passwort" required
+                onkeypress="if(event.key === 'Enter') signInWithEmail()"><br>
+            <button onclick="signInWithEmail()">Login</button>
+        </div>
+
+
+        
+
+    </form>
+
+
+
+
     <div class="titel">
 
-
         <div class="Kalender_title">
+
             <div onclick="loginShowflex()">
                 <h1>Nikos Kalender</h1>
             </div>
 
 
-
             <div class="Jahresauswahl">
                 <Select id="year_select" onchange="readDB()" class="option">
-                    <option value="2023">2023</option>
                     <option value="2024">2024</option>
                     <option value="2025">2025</option>
                     <option value="2026">2026</option>
@@ -532,12 +592,7 @@
             </div>
         </div>
 
-        <div class="login">
-            <input id="email_id" type="email" placeholder="Email" required>
-            <input id="password_id" type="password" placeholder="Passwort" required
-                onkeypress="if(event.key === 'Enter') signInWithEmail()">
-            <button onclick="signInWithEmail()">Login</button>
-        </div>
+
 
 
 
@@ -550,15 +605,20 @@
 
         <div class="lengende" id="lengende">
 
-            <label class="label_ label_berlin ferienX" id="berlin_Urlaubstage" for="text">Berlin</label>
+            <label class="label_ label_berlin cal_x" id="berlin_Urlaubstage" for="text" >Berlin</label>
 
-            <label class="label_ label_brandenburg ferienY" id="brandenburg_Urlaubstage" for="text">Brandenburg</label>
+            <label class="label_ label_brandenburg cal_y" id="brandenburg_Urlaubstage" for="text" >Brandenburg</label>
 
-            <label class="label_ label_niko Niko" id="niko_Urlaubstage" for="text">Niko (+40)</label>
+            <label class="label_ label_niko cal_niko" id="niko_Urlaubstage" for="text">Niko (+40)</label>
 
-            <label class="label_ label_sophie Sophie" id="sophie_Urlaubstage" for="text">Sophie (+30)</label>
+            <label class="label_ label_sophie cal_sophie" id="sophie_Urlaubstage" for="text">Sophie (+30)</label>
         </div>
+
+        <button onclick="readDB()">laden</button>
+
     </div>
+
+    
 
     <div class="calendar-container" id="calendar"></div>
     <div id="calendar"></div>
