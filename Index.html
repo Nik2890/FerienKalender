@@ -118,6 +118,20 @@
 
         }
 
+        .heute_tag {
+            
+            display: flex;
+            justify-content: flex-end;
+            padding: 0px;
+            width: 100%;
+            height: 3%;
+            font-size: 50%;
+            border: solid 2px;
+            border-color: #ea1212;
+
+      
+
+        }
 
         .ferien {
             display: flex;
@@ -239,7 +253,6 @@
 
         .closeButtony {
 
-            
             justify-content: flex-end;
             align-items: flex-end;
             background-color: rgb(234, 102, 65);
@@ -534,10 +547,32 @@
                     else { kalenderwoche_nr_am_Mo = '' }
 
 
+
+//heute färben
+                    let heute_ = new Date();
+                    let tag_ = heute_.getDate();
+                    let monat_ = heute_.getMonth() + 1; // Monat ist 0-basiert, also +1
+                    let jahr_ = heute_.getFullYear();
+                    let monat_s = (monat_ < 10 ? "0" : "") + monat_;
+                    let tag_s = (tag_ < 10 ? "0" : "") + tag_; 
+                    let Tages_Container = '<div class="day" id="' + s_day + '_' + (s_month) + '_' + AusgewähltesJahr + '_id' + '">';
+                    
+                      
+                       if (jahr_ == AusgewähltesJahr  &&  monat_s == s_month &&  tag_s == s_day) {
+                        console.log('trifft')
+                        console.log(jahr_ , AusgewähltesJahr, monat_s, s_month, tag_s, s_day)
+                        Tages_Container = '<div class="heute_tag" id="' + s_day + '_' + (s_month) + '_' + AusgewähltesJahr + '_id' + '">'
+                       }
+                        
+                  
+
+
+                
                     //Tage zusammensetzen
                     document.getElementById(monate[month]).innerHTML = calendar
 
-                        + '<div class="day" id="' + s_day + '_' + (s_month) + '_' + AusgewähltesJahr + '_id' + '">'
+
+                        + Tages_Container
                         + TagFormat
                         //+ kalenderwoche_nr_am_Mo
                         + wochentage[new Date(AusgewähltesJahr, month, day).getDay()] + ' '
@@ -548,7 +583,7 @@
 
                         + FerienX
                         + FerienY
-                        
+
                         + FerienSophie
                         + FerienNiko
 
@@ -643,7 +678,7 @@
             <label class="label_ label_brandenburg cal_y" id="brandenburg_Urlaubstage" for="text">Nötzold</label>
 
             <label class="label_ label_sophie cal_sophie" id="sophie_Urlaubstage" for="text">Sophie (+30)</label>
-            
+
             <label class="label_ label_niko cal_niko" id="niko_Urlaubstage" for="text">Niko (+40)</label>
         </div>
 
