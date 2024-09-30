@@ -146,19 +146,19 @@
             border: 1px solid white;
         }
 
-        .ferienX {
+        .cal_x {
             background-color: rgb(210, 245, 72);
         }
 
-        .ferienY {
+        .cal_y {
             background-color: rgb(144, 179, 250);
         }
 
-        .Niko {
+        .cal_niko {
             background-color: rgb(107, 218, 38);
         }
 
-        .Sophie {
+        .cal_sophie {
             background-color: rgb(255, 152, 100);
         }
 
@@ -248,6 +248,8 @@
                 email: document.getElementById("email_id").value,
                 password: document.getElementById("password_id").value,
             })
+
+            readDB()
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -301,28 +303,20 @@
         async function ferien_click(Table, day_id) {
 
             let Jahr_x = document.getElementById("year_select").value
+            let element = document.getElementById(day_id + '_Ferien_' + Table + '_id')
 
-            // Termine x einfärben
-            let cal_xyz = JSON.parse(localStorage.getItem(Table))
-            let ARR_yz = cal_xyz.filter(element => element.day_id === day_id)[0][Jahr_x]
-            console.log(ARR_yz)
-            if (ARR_yz == 1) {
-
-                console.log('Tag ist eins')
+            if (element.classList.contains(Table)) {
                 Schreiben(Table, day_id, '0')
-                readDB()
+                element.classList.remove(Table);
             }
             else {
-                console.log('Tag ist null')
                 Schreiben(Table, day_id, '1')
-                readDB()
+                element.classList.add(Table);
             }
-
 
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 
         async function Schreiben(Table, day_id, text) {
 
@@ -336,7 +330,7 @@
 
 
 
-            readDB();
+            //readDB();
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -435,30 +429,30 @@
                     /////////////////
 
                     //Standard Button einfügen
-                    var FerienX = '<button title="Ferien Berlin" class="FerieButton" onclick="ferien_click(\'cal_x\', \'' + Tag + '\')"></button>';
-                    var FerienY = '<button title="Ferien Brandenburg" class="FerieButton" onclick="ferien_click(\'cal_y\', \'' + Tag + '\')"></button>';
-                    var FerienNiko = '<button title="Ferien Niko" class="FerieButton" onclick="ferien_click(\'cal_niko\', \'' + Tag + '\')"></button>';
-                    var FerienSophie = '<button title="Ferien Sophie" class="FerieButton" onclick="ferien_click(\'cal_sophie\', \'' + Tag + '\')"></button>';
+                    var FerienX = '<button id="' + Tag + '_Ferien_cal_x_id" title="Ferien Berlin" class="FerieButton" onclick="ferien_click(\'cal_x\', \'' + Tag + '\')"></button>';
+                    var FerienY = '<button id="' + Tag + '_Ferien_cal_y_id" "title="Ferien Brandenburg" class="FerieButton" onclick="ferien_click(\'cal_y\', \'' + Tag + '\')"></button>';
+                    var FerienNiko = '<button id="' + Tag + '_Ferien_cal_niko_id" title="Ferien Niko" class="FerieButton" onclick="ferien_click(\'cal_niko\', \'' + Tag + '\')"></button>';
+                    var FerienSophie = '<button id="' + Tag + '_Ferien_cal_sophie_id" title="Ferien Sophie" class="FerieButton" onclick="ferien_click(\'cal_sophie\', \'' + Tag + '\')"></button>';
 
                     // Termine x einfärben
                     let cal_x = JSON.parse(localStorage.getItem('cal_x'))
                     let ARR_x = cal_x.filter(element => element.day_id === Tag)[0][AusgewähltesJahr]
-                    if (ARR_x === 1) { var FerienX = '<button title="Ferien Berlin" class="FerieButton ferienX" onclick="ferien_click(\'cal_x\', \'' + Tag + '\')"</button>'; }
+                    if (ARR_x === 1) { var FerienX = '<button id="' + Tag + '_Ferien_cal_x_id" title="Ferien Berlin" class="FerieButton cal_x" onclick="ferien_click(\'cal_x\', \'' + Tag + '\')"</button>'; }
 
                     // Termine y einfärben
                     let cal_y = JSON.parse(localStorage.getItem('cal_y'))
                     let ARR_y = cal_y.filter(element => element.day_id === Tag)[0][AusgewähltesJahr]
-                    if (ARR_y === 1) { var FerienY = '<button title="Ferien Brandenburg" class="FerieButton ferienY" onclick="ferien_click(\'cal_y\', \'' + Tag + '\')"></button>'; }
+                    if (ARR_y === 1) { var FerienY = '<button id="' + Tag + '_Ferien_cal_y_id" title="Ferien Brandenburg" class="FerieButton cal_y" onclick="ferien_click(\'cal_y\', \'' + Tag + '\')"></button>'; }
 
                     // Termine niko einfärben
                     let cal_niko = JSON.parse(localStorage.getItem('cal_niko'))
                     let ARR_niko = cal_niko.filter(element => element.day_id === Tag)[0][AusgewähltesJahr]
-                    if (ARR_niko === 1) { var FerienNiko = '<button title="Ferien Niko" class="FerieButton Niko" onclick="ferien_click(\'cal_niko\', \'' + Tag + '\')"></button>'; }
+                    if (ARR_niko === 1) { var FerienNiko = '<button id="' + Tag + '_Ferien_cal_niko_id" title="Ferien Niko" class="FerieButton cal_niko" onclick="ferien_click(\'cal_niko\', \'' + Tag + '\')"></button>'; }
 
                     // Termine sophie einfärben
                     let cal_sophie = JSON.parse(localStorage.getItem('cal_sophie'))
                     let ARR_sophie = cal_sophie.filter(element => element.day_id === Tag)[0][AusgewähltesJahr]
-                    if (ARR_sophie === 1) { var FerienSophie = '<button title="Ferien Sophie" class="FerieButton Sophie" onclick="ferien_click(\'cal_sophie\', \'' + Tag + '\')"></button>'; }
+                    if (ARR_sophie === 1) { var FerienSophie = '<button id="' + Tag + '_Ferien_cal_sophie_id" title="Ferien Sophie" class="FerieButton cal_sophie" onclick="ferien_click(\'cal_sophie\', \'' + Tag + '\')"></button>'; }
 
                     //////////////////
                     //text kommt von cal_niko_text
@@ -519,12 +513,12 @@
     <div class="titel">
 
 
-        <div  class="Kalender_title">
+        <div class="Kalender_title">
             <div onclick="loginShowflex()">
-            <h1>Nikos Kalender</h1>
-        </div>
+                <h1>Nikos Kalender</h1>
+            </div>
 
-        
+
 
             <div class="Jahresauswahl">
                 <Select id="year_select" onchange="readDB()" class="option">
