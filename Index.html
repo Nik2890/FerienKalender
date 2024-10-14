@@ -14,7 +14,7 @@
 
         }
 
- 
+
 
 
         .titel {
@@ -68,7 +68,7 @@
             justify-content: center;
             font-size: 20px;
             width: 100%;
-            border: none ;
+            border: none;
 
 
 
@@ -104,9 +104,6 @@
             justify-content: flex-end;
             align-items: center;
             width: 22%;
-
-
-
         }
 
 
@@ -115,11 +112,10 @@
             border: none;
             font-size: 12px;
 
-
         }
 
         .heute_tag {
-            
+
             display: flex;
             justify-content: flex-end;
             padding: 0px;
@@ -130,8 +126,10 @@
             border-color: #ea1212;
             z-index: 1;
 
-      
+        }
 
+        .BG_green {
+            background-color: rgb(107, 218, 38); 
         }
 
         .ferien {
@@ -152,7 +150,7 @@
 
         .FerieButton {
 
-            border: none;
+            /* border: none; */
             width: 1px;
             border: 1px solid white;
         }
@@ -445,7 +443,11 @@
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        function openform() { document.querySelector(".form1").style.display = "flex"; }
+        function openform(day_id) {
+            document.querySelector(".form1").style.display = "flex";
+            document.getElementById("label_form1").innerHTML = day_id;
+
+        }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -479,13 +481,6 @@
                     }
 
 
-                    //Wochenenden bestimmen
-                    var TagFormat = '<div class = "daysFormat"  onclick="openform()">'
-                    if (new Date(AusgewähltesJahr, month, day).getDay() == 0 || new Date(AusgewähltesJahr, month, day).getDay() == 6) {
-                        var TagFormat = '<div class = "daysFormat Wochenende" onclick="openform()">'
-                    }
-
-
                     let s_day = day
                     // Tage mit 0 fuellen
                     let calendar = document.getElementById(monate[month]).innerHTML;
@@ -505,8 +500,14 @@
                     Tag = 'T' + s_day + 'M' + s_month
                     /////////////////
 
+                    //Wochenenden bestimmen
+                    var TagFormat = '<div class = "daysFormat BC_green" onclick="openform(\'' + Tag + '\')">'
+                    if (new Date(AusgewähltesJahr, month, day).getDay() == 0 || new Date(AusgewähltesJahr, month, day).getDay() == 6) {
+                        var TagFormat = '<div class = "daysFormat Wochenende" onclick="openform(\'' + Tag + '\')">'
+                    }
+
                     //Standard Button einfügen
-                    var FerienX = '<button id="' + Tag + '_Ferien_cal_x_id" title="Ferien Berlin" class="FerieButton" onclick="ferien_click(\'cal_x\', \'' + Tag + '\')"></button>';
+                    var FerienX = '<button id="' + Tag + '_Ferien_cal_x_id" title="Ferien Berlin" class="FerieButton BC_green" onclick="ferien_click(\'cal_x\', \'' + Tag + '\')"></button>';
                     var FerienY = '<button id="' + Tag + '_Ferien_cal_y_id" title="Ferien Brandenburg" class="FerieButton" onclick="ferien_click(\'cal_y\', \'' + Tag + '\')"></button>';
                     var FerienNiko = '<button id="' + Tag + '_Ferien_cal_niko_id" title="Ferien Niko" class="FerieButton" onclick="ferien_click(\'cal_niko\', \'' + Tag + '\')"></button>';
                     var FerienSophie = '<button id="' + Tag + '_Ferien_cal_sophie_id" title="Ferien Sophie" class="FerieButton" onclick="ferien_click(\'cal_sophie\', \'' + Tag + '\')"></button>';
@@ -536,7 +537,7 @@
                     Labelx_mitText = '<input id= "' + Tag + '_Lable' + '" onchange="Labelx_aendern(\'' + Tag + '\', this.value)" class="Labelx" type="text" value="">'
                     let cal_niko_text = JSON.parse(localStorage.getItem('cal_niko_text'))
                     let ARR_niko_text = cal_niko_text.filter(element => element.day_id === Tag)[0][AusgewähltesJahr]
-                    if (ARR_niko_text !== '0' && ARR_niko_text !== null) {
+                    if (ARR_niko_text !== '0' && ARR_niko_text !== null && ARR_niko_text !== '') {
                         //console.log(Tag +' - ' + ARR_niko_text)
                         Labelx_mitText = '<input id= "' + Tag + '_Lable' + '" onchange="Labelx_aendern(\'' + Tag + '\', this.value)" class="Labelx" type="text" value="' + ARR_niko_text + '">'
                     }
@@ -555,19 +556,19 @@
                     let monat_ = heute_.getMonth() + 1; // Monat ist 0-basiert, also +1
                     let jahr_ = heute_.getFullYear();
                     let monat_s = (monat_ < 10 ? "0" : "") + monat_;
-                    let tag_s = (tag_ < 10 ? "0" : "") + tag_; 
+                    let tag_s = (tag_ < 10 ? "0" : "") + tag_;
                     let Tages_Container = '<div class="day" id="' + s_day + '_' + (s_month) + '_' + AusgewähltesJahr + '_id' + '">';
-                    
-                      
-                       if (jahr_ == AusgewähltesJahr  &&  monat_s == s_month &&  tag_s == s_day) {
-                        console.log('trifft')
-                        console.log(jahr_ , AusgewähltesJahr, monat_s, s_month, tag_s, s_day)
-                        Tages_Container = '<div class="heute_tag" id="' + s_day + '_' + (s_month) + '_' + AusgewähltesJahr + '_id' + '">'
-                       }
-                        
-                  
 
-                
+
+                    if (jahr_ == AusgewähltesJahr && monat_s == s_month && tag_s == s_day) {
+
+                        // console.log(jahr_, AusgewähltesJahr, monat_s, s_month, tag_s, s_day)
+                        Tages_Container = '<div class="heute_tag" id="' + s_day + '_' + (s_month) + '_' + AusgewähltesJahr + '_id' + '">'
+                    }
+
+
+
+
                     //Tage zusammensetzen
                     document.getElementById(monate[month]).innerHTML = calendar
 
@@ -606,6 +607,7 @@
     <form class="form1" id="form1">
         <button class="closeButtony"
             onclick="(() => { event.preventDefault(); document.querySelector('.form1').style.display = 'none'; })()">X</button>
+        <label id="label_form1" for="">ein test</label>
     </form>
 
 
