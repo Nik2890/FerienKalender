@@ -530,6 +530,15 @@
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+        function change_Format(day_id, format) {
+            let Tages_id = day_id + '_Datum_id'
+            document.getElementById(Tages_id).className = "";
+            document.getElementById(Tages_id).classList.add(format)
+            document.getElementById(Tages_id).classList.add('daysFormat')
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
         // Funktion zur Berechnung der Tage im Monat
         function getDaysInMonth(year, month) { return new Date(year, month + 1, 0).getDate(); }
 
@@ -588,13 +597,13 @@
                     //Datum farbe auslesen
                     let cal_Datum_farbe = JSON.parse(localStorage.getItem('Datum_farbe'))
                     let ARR_Datum_farbe = cal_Datum_farbe.filter(element => element.day_id === Tag)[0][AusgewähltesJahr]
-                    if (ARR_Datum_farbe == 'rot' || ARR_Datum_farbe == 'blau'|| ARR_Datum_farbe == 'lila' || ARR_Datum_farbe == 'gruen' || ARR_Datum_farbe == 'gelb') { var Datum_farbe = ARR_Datum_farbe }
+                    if (ARR_Datum_farbe == 'rot' || ARR_Datum_farbe == 'blau' || ARR_Datum_farbe == 'lila' || ARR_Datum_farbe == 'gruen' || ARR_Datum_farbe == 'gelb') { var Datum_farbe = ARR_Datum_farbe }
                     else { var Datum_farbe = 'farblos' }
 
                     //Wochenenden bestimmen
-                    var TagFormat = '<div class = "daysFormat ' + Datum_farbe + ' " onclick="openform(\'' + Tag + '\')">'
+                    var TagFormat = '<div id="' + Tag + '_Datum_id" class = "daysFormat ' + Datum_farbe + ' " onclick="openform(\'' + Tag + '\')">'
                     if (new Date(AusgewähltesJahr, month, day).getDay() == 0 || new Date(AusgewähltesJahr, month, day).getDay() == 6) {
-                        var TagFormat = '<div class = "daysFormat Wochenende" onclick="openform(\'' + Tag + '\')">'
+                        var TagFormat = '<div id="' + Tag + '_Datum_id" class = "daysFormat Wochenende" onclick="openform(\'' + Tag + '\')">'
                     }
 
                     //Standard Button einfügen
@@ -705,12 +714,18 @@
         <Div class="form1Div1">
             <label class="label_form1" for="">Datum</label>
             <!-- hier noch alle buttons ändern und lokal ändern -->
-            <button class="Button_form1_farbe rot"  onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'rot'); form1_close() })()">rot</button>
-            <button class="Button_form1_farbe blau" onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'blau'); form1_close() })()">blau</button>
-            <button class="Button_form1_farbe lila" onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'lila'); form1_close() })()">lila</button>
-            <button class="Button_form1_farbe gruen" onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'gruen'); form1_close() })()">grün</button>
-            <button class="Button_form1_farbe gelb" onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'gelb'); form1_close() })()">gelb</button>
-            <button class="Button_form1_farbe " onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'frablos'); form1_close() })()">keine</button>
+            <button class="Button_form1_farbe rot"
+                onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'rot'); form1_close();change_Format(localStorage.getItem('day_id'), 'rot') })()">rot</button>
+            <button class="Button_form1_farbe blau"
+                onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'blau'); form1_close();change_Format(localStorage.getItem('day_id'), 'blau') })()">blau</button>
+            <button class="Button_form1_farbe lila"
+                onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'lila'); form1_close();change_Format(localStorage.getItem('day_id'), 'lila') })()">lila</button>
+            <button class="Button_form1_farbe gruen"
+                onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'gruen'); form1_close();change_Format(localStorage.getItem('day_id'), 'gruen') })()">grün</button>
+            <button class="Button_form1_farbe gelb"
+                onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'gelb'); form1_close();change_Format(localStorage.getItem('day_id'), 'gelb') })()">gelb</button>
+            <button class="Button_form1_farbe "
+                onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'frablos'); form1_close();change_Format(localStorage.getItem('day_id'), 'farblos') })()">keine</button>
         </Div>
 
         <Div class="form1Div1">
