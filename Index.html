@@ -243,6 +243,10 @@
             border: none;
         }
 
+        .frablos {
+            border: none;
+        }
+
 
 
         .formEmaitext {
@@ -386,6 +390,8 @@
         function loginShowflex() { document.querySelector(".formLogin").style.display = "grid"; }
         function loginShownone() { document.querySelector(".formLogin").style.display = "none"; }
 
+        function form1_close() { document.querySelector(".form1_class").style.display = "none"; }
+
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -471,7 +477,10 @@
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
         function Datum_farbe_aendern(day_id, farbe) {
-            Schreiben('Datum_farbe', day_id, farbe)
+            console.log('farbe: ' + farbe)
+            console.log('day_id: ' + day_id)
+            Schreiben('Datum_farbe', day_id, farbe);
+
         }
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -514,6 +523,7 @@
 
         function openform(day_id) {
             document.querySelector(".form1_class").style.display = "Flex";
+            console.log("click auf:" + day_id)
             localStorage.setItem("day_id", day_id)
 
         }
@@ -575,7 +585,11 @@
                     if (ARR_Textfeld_farbe !== '0' && ARR_Textfeld_farbe !== null && ARR_Textfeld_farbe !== undefined && ARR_Textfeld_farbe !== '') { var Textfeld_farbe = ARR_Textfeld_farbe }
                     else { var Textfeld_farbe = '' }
 
-
+                    //Datum farbe auslesen
+                    let cal_Datum_farbe = JSON.parse(localStorage.getItem('Datum_farbe'))
+                    let ARR_Datum_farbe = cal_Datum_farbe.filter(element => element.day_id === Tag)[0][AusgewähltesJahr]
+                    if (ARR_Datum_farbe == 'rot' || ARR_Datum_farbe == 'blau'|| ARR_Datum_farbe == 'lila' || ARR_Datum_farbe == 'gruen' || ARR_Datum_farbe == 'gelb') { var Datum_farbe = ARR_Datum_farbe }
+                    else { var Datum_farbe = 'farblos' }
 
                     //Wochenenden bestimmen
                     var TagFormat = '<div class = "daysFormat ' + Datum_farbe + ' " onclick="openform(\'' + Tag + '\')">'
@@ -611,12 +625,6 @@
 
                     //////////////////
 
-                    //Datum farbe auslesen
-                    let cal_Datum_farbe = JSON.parse(localStorage.getItem('Datum_farbe'))
-                    let ARR_Datum_farbe = cal_Datum_farbe.filter(element => element.day_id === Tag)[0][AusgewähltesJahr]
-                    if (ARR_Datum_farbe !== '0' && ARR_Datum_farbe !== null && ARR_Datum_farbe !== undefined && ARR_Datum_farbe !== '') { var Datum_farbe = ARR_Datum_farbe }
-                    else { var Datum_farbe = '' }
-
                     //text kommt von cal_niko_text
                     Labelx_mitText = '<input id= "' + Tag + '_Lable' + '" onchange="Labelx_aendern(\'' + Tag + '\', this.value)" class="Labelx ' + Textfeld_farbe + '" type="text" value="">'
                     let cal_niko_text = JSON.parse(localStorage.getItem('cal_niko_text'))
@@ -625,7 +633,7 @@
                         //console.log(Tag +' - ' + ARR_niko_text)
                         Labelx_mitText = '<input id= "' + Tag + '_Lable' + '" onchange="Labelx_aendern(\'' + Tag + '\', this.value)" class="Labelx" type="text" value="' + ARR_niko_text + '">'
                     }
-                    //////////////////
+                    ///////////////////
 
 
                     //Kalenderwoche nur am Mo einfügen
@@ -697,22 +705,22 @@
         <Div class="form1Div1">
             <label class="label_form1" for="">Datum</label>
             <!-- hier noch alle buttons ändern und lokal ändern -->
-            <button class="Button_form1_farbe rot"  onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'rot') })()">rot</button>
-            <button class="Button_form1_farbe blau" onclick="(() => { event.preventDefault() })()">blau</button>
-            <button class="Button_form1_farbe lila" onclick="(() => { event.preventDefault() })()">lila</button>
-            <button class="Button_form1_farbe gruen" onclick="(() => { event.preventDefault() })()">grün</button>
-            <button class="Button_form1_farbe gelb" onclick="(() => { event.preventDefault() })()">gelb</button>
-            <button class="Button_form1_farbe " onclick="(() => { event.preventDefault() })()">keine</button>
+            <button class="Button_form1_farbe rot"  onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'rot'); form1_close() })()">rot</button>
+            <button class="Button_form1_farbe blau" onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'blau'); form1_close() })()">blau</button>
+            <button class="Button_form1_farbe lila" onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'lila'); form1_close() })()">lila</button>
+            <button class="Button_form1_farbe gruen" onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'gruen'); form1_close() })()">grün</button>
+            <button class="Button_form1_farbe gelb" onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'gelb'); form1_close() })()">gelb</button>
+            <button class="Button_form1_farbe " onclick="(() => { event.preventDefault();Datum_farbe_aendern(localStorage.getItem('day_id'),'frablos'); form1_close() })()">keine</button>
         </Div>
 
         <Div class="form1Div1">
             <label class="label_form1" for="">Textfeld</label>
-            <button class="Button_form1_farbe rot" onclick="(() => { event.preventDefault() })()">rot</button>
+            <!-- <button class="Button_form1_farbe rot" onclick="(() => { event.preventDefault() })()">rot</button>
             <button class="Button_form1_farbe blau" onclick="(() => { event.preventDefault() })()">blau</button>
             <button class="Button_form1_farbe lila" onclick="(() => { event.preventDefault() })()">lila</button>
             <button class="Button_form1_farbe gruen" onclick="(() => { event.preventDefault() })()">grün</button>
             <button class="Button_form1_farbe gelb" onclick="(() => { event.preventDefault() })()">gelb</button>
-            <button class="Button_form1_farbe " onclick="(() => { event.preventDefault() })()">keine</button>
+            <button class="Button_form1_farbe " onclick="(() => { event.preventDefault() })()">keine</button> -->
         </Div>
     </form>
 
