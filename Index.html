@@ -374,7 +374,7 @@
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        function iniSupabase(PW) {
+        function iniSupabase() {
             const supabaseUrl = "https://hskeowlqxzmjfsaxwadj.supabase.co";
             const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhza2Vvd2xxeHptamZzYXh3YWRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM5OTY4MTksImV4cCI6MjAzOTU3MjgxOX0.wus63Imorj_2Q8jJ9BiIHNTyv38-dYrOrHIs6ctYAH8";
             const Database = supabase.createClient(supabaseUrl, supabaseKey)
@@ -383,10 +383,10 @@
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        async function signInWithEmail() {
+        async function signInWithEmail(Email_id, pw_id) {
             const { data, error } = await Database.auth.signInWithPassword({
-                email: document.getElementById("email_id").value,
-                password: document.getElementById("password_id").value,
+                email: Email_id,
+                password: pw_id,
             })
 
             readDB()
@@ -764,8 +764,8 @@
         <div class="formEmailInput">
             <input id="email_id" type="email" placeholder="Email" required><br>
             <input id="password_id" type="password" placeholder="Passwort" required
-                onkeypress="if(event.key === 'Enter') signInWithEmail()"><br>
-            <button onclick="signInWithEmail()">Login</button>
+                onkeypress="if(event.key === 'Enter') signInWithEmail(document.getElementById('email_id').value, document.getElementById('password_id').value)"><br>
+            <button onclick="signInWithEmail(document.getElementById('email_id').value, document.getElementById('password_id').value)">Login</button>
         </div>
 
 
