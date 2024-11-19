@@ -13,7 +13,7 @@
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        function iniSupabase(PW) {
+        function iniSupabase() {
             const supabaseUrl = "https://hskeowlqxzmjfsaxwadj.supabase.co";
             const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imhza2Vvd2xxeHptamZzYXh3YWRqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjM5OTY4MTksImV4cCI6MjAzOTU3MjgxOX0.wus63Imorj_2Q8jJ9BiIHNTyv38-dYrOrHIs6ctYAH8";
             const Database = supabase.createClient(supabaseUrl, supabaseKey)
@@ -34,6 +34,7 @@
 
 
         function login() {
+            signInWithEmail();
             // Im index.html
             window.location.href = 'Index.html';
         }
