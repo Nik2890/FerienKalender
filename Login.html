@@ -30,7 +30,7 @@
                 password: pw_id,
             })
             readDB() ;
-            window.location.href = 'Index.html';
+            window.open('Index.html', '_blank');
 
         }
 
@@ -47,7 +47,7 @@
                 .select('2025')  // Alle Spalten auswählen
 
             let Antwort = data
-            
+            console.log(Antwort);
 
         }
 
