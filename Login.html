@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
     <script>
 
         const Database = iniSupabase();
@@ -22,22 +24,17 @@
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-        async function signInWithEmail() {
+        async function signInWithEmail(Email_id, pw_id) {
             const { data, error } = await Database.auth.signInWithPassword({
-                email: document.getElementById("email_id").value,
-                password: document.getElementById("password_id").value,
+                email: Email_id,
+                password: pw_id,
             })
+            console.log('Seitenwechsel')
+            window.location.href = 'Index.html';
 
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-
-        function login() {
-            signInWithEmail();
-            // Im index.html
-            window.location.href = 'Index.html';
-        }
 
     </script>
     <style>
@@ -123,10 +120,11 @@
     <div class="login-container">
         <!-- <img src="bilder\n_pic.png" alt="Logo" class="profile-image"> -->
         <form>
-            <input id="email_id" type="email" placeholder="Email" required>
-            <input id="password_id" type="password" placeholder="Passwort" required
+            <input id="emaiL_Input" type="email" placeholder="Email" required>
+            <input id="pw_Input" type="password" placeholder="Passwort" required
                 onkeypress="if(event.key === 'Enter') login()">
-            <button onclick="login()" type="button">LOGIN</button>
+            <button
+                onclick="event.preventDefault(); signInWithEmail(document.getElementById('emaiL_Input').value, document.getElementById('pw_Input').value)">Login</button>
         </form>
     </div>
 </body>
