@@ -29,13 +29,32 @@
                 email: Email_id,
                 password: pw_id,
             })
-            console.log('Seitenwechsel')
+            readDB() ;
             window.location.href = 'Index.html';
 
         }
 
         ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+
+        async function readDB() {
+
+
+            const Datebank = 'cal_niko_text'
+
+            const { data, error } = await Database
+                .from('cal_niko_text')
+                .select('2025')  // Alle Spalten auswählen
+
+            let Antwort = data
+            
+
+        }
+
+
+
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
     </script>
     <style>
         body {
